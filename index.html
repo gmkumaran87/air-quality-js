@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Air Quality app</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h2>Air Qulity Check</h2>
+        <div class="underline"></div>
+    </header>
+    <main>
+        <section class="inputOptions">
+            <h3>Please select the City</h3>
+            <div class="dropDown">
+                <input list="countries" name="myCountry" id="myCountry" placeholder="Select a Country">
+                <datalist id="countries"> </datalist>
+                <input list="state" name="myState" id="myState" placeholder="State..">
+                <datalist id="state"> </datalist>
+                <input list="cities" name="myCity" id="myCity" placeholder="City..">
+                <datalist id="cities"> </datalist>
+            </div>
+        </section>
+
+        <section class="center-section">
+            <h2>Air Quality in <span class="city-header"></span></h2>
+            <p class="aqi-para-heading">Air Quality Index (AQI) and PM2.5 air pollution in <span class="city-para"></span></p>
+            <div class="aqi-overview">
+                <div class="aqi-wrapper">
+                    <div class="aqi-value">
+                        <p class="aqi-value-unit">US AQI</p>
+                        <p class="aqi-value-val">100</p>
+                    </div>
+                    <p class="aqi-status">Unhealthy</p>
+                </div>
+                <img class="human-face" src="https://www.iqair.com/assets/aqi/ic-face-orange.svg" alt="human-face">
+            </div>
+        </section>
+
+        <section class="aqi-desc">
+            <table class="aqi-table">
+                <thead>
+                    <tr>
+                        <th>Pollution Level</th>
+                        <th>Air Quality Index </th>
+                        <th>Pollutant</th>
+                    </tr>
+                </thead>
+                <tbody id="aqi-table-row"></tbody>
+            </table>
+        </section>
+
+        <section class="weather-desc">
+            <div class="weather-summary">
+                <div class="weather-summary-header">
+                    <h2 class="weather-desc__header">WEATHER</h2>
+                    <h3>What is the current weather in <span class="weather-city">Chennai!</span></h3>
+                </div>
+                <img class="weather-image" src="https://www.iqair.com/assets/weather/ic-w-04-scattered-clouds-full.svg" alt="clouds">
+            </div>
+            <table class="weather-table">
+                <thead>
+                    <tr>
+                        <th>Weather</th>
+                        <th>Temperature</th>
+                        <th>Humidity</th>
+                        <th>Wind</th>
+                        <th>Pressure</th>
+                    </tr>
+                </thead>
+                <tbody id="weather-table-row"></tbody>
+            </table>
+        </section>
+
+
+
+    </main>
+    <script src="ui.js"></script>
+    <script src="fetch.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
