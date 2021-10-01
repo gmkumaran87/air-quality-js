@@ -123,18 +123,16 @@ class UI {
         row.innerHTML = `<td>${pollutants.status}</td>
             <td>${pollutants.aqius} US AQI</td>
             <td>${this.pmLevel[pollutants.mainus]}</td>`;
-
+        this.list.innerHTML = "";
         this.list.appendChild(row);
     }
 
     displayWeather(obj) {
-        console.log(this.weatherIcon, obj.icon);
         this.cityWeather.innerHTML = obj.city;
 
         this.weatherImage.src = this.weatherIcon[obj.icon]["icon"];
         this.weatherImage.alt = this.weatherIcon[obj.icon]["desc"];
 
-        console.log(this.weatherIcon[obj.icon]["desc"]);
         // Creating a table row
         const row = document.createElement("tr");
 
@@ -145,22 +143,34 @@ class UI {
                        <td>${obj.wind}Km/h</td>
                        <td>${obj.pressure}mb</td>`;
 
+        this.weatherTableRow.innerHTML = "";
         this.weatherTableRow.append(row);
     }
 
     loadDropdown(elementList, dataArr) {
-        console.log(elementList, dataArr);
-
         elementList.list.innerHTML = "";
 
-        if (elementList.dataset.type === "country") {
-            dataArr.forEach((country) => {
-                elementList.list.innerHTML += `<option value=${country.country}></option>`;
-            });
-        } else if (elementList.dataset.type === "state") {
-            dataArr.forEach((state) => {
-                elementList.list.innerHTML += `<option value=${state.state}></option>`;
-            });
+        switch (elementList.dataset.type) {
+            case "country":
+                dataArr.forEach((country) => {
+                    elementList.list.innerHTML += `<option value='${country.country}'></option>`;
+                });
+                break;
+            case "state":
+                dataArr.forEach((state) => {
+                    console.log(state.state);
+                    elementList.list.innerHTML += `<option value='${state.state}'></option>`;
+                });
+                break;
+            case "city":
+                dataArr.forEach((city) => {
+                    elementList.list.innerHTML += `<option value='${city.city}'></option>`;
+                });
+                break;
+            default:
+                break;
         }
+
+        if (elementList.dataset.type === "country") {} else if (elementList.dataset.type === "state") {}
     }
 }

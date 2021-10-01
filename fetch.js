@@ -4,8 +4,6 @@ class AirQuality {
         this.state = state;
         this.city = city;
         this.secretKey = "1ffca47a-c224-48f6-9799-84d628f5b229";
-
-        //  this.state = http: //api.airvisual.com/v2/states?country={{COUNTRY_NAME}}&key={{YOUR_API_KEY}}
     }
 
     getInitialData = async() => {
@@ -32,7 +30,7 @@ class AirQuality {
     };
 
     getDataLists = async(dataListType, dataList) => {
-        console.log(dataList, dataListType, selectedPlace);
+        console.log(dataList, dataListType);
 
         try {
             if (dataListType === "country") {
@@ -45,13 +43,24 @@ class AirQuality {
                 var data = await fetch(
                     `http://api.airvisual.com/v2/cities?state=${selectedPlace}&country=${dataList["country"]}&key=${this.secretKey}`
                 );
+            } else if ((dataListType = "city")) {
+                const selectedPlace = dataList["city"];
+                var data = await fetch(
+                    `http://api.airvisual.com/v2/city?city=${selectedPlace}&state=${dataList["state"]}&country=${dataList["country"]}&key=${this.secretKey}`
+                );
             }
             if (!data.ok) {
                 throw new Error("Something went wrong!");
             }
-            const states = await data.json();
+            const region = await data.json();
 
-            return states.data;
+            return region.data;
+            /*
+                                   return (dataListType = "city" ?
+                                       region.data :
+                                       (dataListType = "state" ?
+                                           region.data.city :
+                                           (dataListType = "country" ? region.data.state : null)));*/
         } catch (error) {
             console.log(`error`, error);
         }

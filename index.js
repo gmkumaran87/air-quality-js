@@ -27,12 +27,8 @@ const loadingWeather = (city, obj) => {
 
     return weather;
 };
-const init = async() => {
-    const { countries, currentData } = await airQ.getInitialData();
 
-    // Loading the Country Dropdown
-    ui.loadDropdown(countryList, countries);
-
+const loadPage = (currentData) => {
     city = currentData.city;
     const aqius = Number(currentData.current.pollution.aqius);
 
@@ -49,11 +45,18 @@ const init = async() => {
         pollutants["status"] = "Bad";
     }
 
-    console.log(pollutants);
     ui.displayAqiData(city, pollutants);
 
     // Dispalying Weather data
     ui.displayWeather(loadingWeather(city, currentData.current.weather));
+};
+const init = async() => {
+    const { countries, currentData } = await airQ.getInitialData();
+
+    // Loading the Country Dropdown
+    ui.loadDropdown(countryList, countries);
+
+    loadPage(currentData);
 };
 
 // Initializing the App
@@ -74,13 +77,23 @@ const handleChange = async(e) => {
         cityList.value = "";
 
         fetchedStates = await airQ.getDataLists(datasetType, selectedPlace);
-        // Loading the Country Dropdown
+
+        console.log(fetchedStates);
+        // Loading the State Dropdown
         ui.loadDropdown(stateList, fetchedStates);
     } else if (datasetType === "state") {
-        cityList.list.innerHTML = "";
         selectedPlace["state"] = selectedDataList;
+        cityList.value = "";
+
         fetchedCities = await airQ.getDataLists(datasetType, selectedPlace);
+
+        // Load the City DropDown
         ui.loadDropdown(cityList, fetchedCities);
+    } else {
+        selectedPlace["city"] = selectedDataList;
+
+        const cityData = await airQ.getDataLists(datasetType, selectedPlace);
+        loadPage(cityData);
     }
 };
 
@@ -88,3 +101,5 @@ const handleChange = async(e) => {
 countryList.addEventListener("change", handleChange);
 
 stateList.addEventListener("change", handleChange);
+
+cityList.addEventListener("change", handleChange);
