@@ -6,7 +6,7 @@ class UI {
 
         this.cityHeader = document.querySelector(".city-header");
         this.cityPara = document.querySelector(".city-para");
-        this.aqiStatus = document.querySelector(".aqi-status");
+        this.aqiStatus = document.querySelector(".aqi-status-msg");
         this.aqiValue = document.querySelector(".aqi-value-val");
 
         this.list = document.getElementById("aqi-table-row");
@@ -75,6 +75,10 @@ class UI {
                 desc: "Mist",
                 icon: "https://res.cloudinary.com/gmkumaran87/image/upload/v1633005724/Weather_Icons/50d_lpsoz9.png",
             },
+            "50n": {
+                desc: "Mist(Night)",
+                icon: "https://res.cloudinary.com/gmkumaran87/image/upload/v1633005724/Weather_Icons/50d_lpsoz9.png",
+            },
         };
     }
 
@@ -88,7 +92,7 @@ class UI {
         this.aqiStatus.innerHTML = pollutants.status;
 
         switch (pollutants.status) {
-            case "Unhealthy":
+            case "Unhealthy For Sensitive Groups":
                 overwiewDiv = "aqi-orange";
                 aqiValueDiv = "aqi-box-orange";
                 break;
@@ -97,8 +101,8 @@ class UI {
                 aqiValueDiv = "aqi-box-green";
                 break;
             case "Moderate":
-                overwiewDiv = "aqi-yello";
-                aqiValueDiv = "aqi-box-yello";
+                overwiewDiv = "aqi-yellow";
+                aqiValueDiv = "aqi-box-yellow";
                 break;
             case "Bad":
                 overwiewDiv = "aqi-red";
@@ -124,6 +128,7 @@ class UI {
     }
 
     displayWeather(obj) {
+        console.log(this.weatherIcon, obj.icon);
         this.cityWeather.innerHTML = obj.city;
 
         this.weatherImage.src = this.weatherIcon[obj.icon]["icon"];
@@ -141,5 +146,21 @@ class UI {
                        <td>${obj.pressure}mb</td>`;
 
         this.weatherTableRow.append(row);
+    }
+
+    loadDropdown(elementList, dataArr) {
+        console.log(elementList, dataArr);
+
+        elementList.list.innerHTML = "";
+
+        if (elementList.dataset.type === "country") {
+            dataArr.forEach((country) => {
+                elementList.list.innerHTML += `<option value=${country.country}></option>`;
+            });
+        } else if (elementList.dataset.type === "state") {
+            dataArr.forEach((state) => {
+                elementList.list.innerHTML += `<option value=${state.state}></option>`;
+            });
+        }
     }
 }

@@ -73,6 +73,8 @@ header {
 
 main {
     padding: 1.5rem;
+    max-width: 900px;
+    width: 85%;
 }
 
 .underline {
@@ -164,7 +166,7 @@ main {
     font-size: 1rem;
 }
 
-.aqi-status {
+.aqi-status-msg {
     font-size: 1.2rem;
     margin-top: 1rem;
     font-weight: 600;
@@ -212,6 +214,10 @@ main {
 .weather-image {
     width: 70px;
     height: 70px;
+}
+
+.aqi-status-label {
+    display: none;
 }
 
 @media only screen and (max-width: 660px),
@@ -279,6 +285,13 @@ main {
 }
 
 @media (min-width: 768px) {
+    .dropDown {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: center;
+        align-items: center;
+        gap: .7rem;
+    }
     table {
         width: 100%;
         border-collapse: collapse;
@@ -295,6 +308,18 @@ main {
         color: var(--clr-white);
         font-weight: bold;
     }
+    .aqi-status-msg {
+        font-size: 1.5rem;
+        margin-top: 1rem;
+        font-weight: 700;
+    }
+    .human-face {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (min-width: 1024px) {
     .aqi-wrapper {
         display: flex;
         flex-flow: row;
@@ -302,18 +327,40 @@ main {
         align-items: flex-start;
         height: 100%;
     }
+    .aqi-overview {
+        padding: 1.5rem 2rem;
+    }
     .aqi-value {
         width: 120px;
         height: 130px;
         display: flex;
         flex-flow: column;
         justify-content: space-around;
-        align-items: center;
+        align-items: flex-start;
         padding: .5rem;
         border: none;
         box-shadow: var(--dark-shadow);
         border-radius: 4px;
         color: var(--clr-white);
+        margin-right: 2rem;
+    }
+    .aqi-value-val {
+        font-size: 2rem;
+    }
+    .aqi-status {
+        margin-top: 1rem;
+    }
+    .aqi-status-msg {
+        margin-top: 0;
+        font-size: 2rem;
+        font-weight: 800;
+    }
+    .aqi-status-label {
+        display: initial;
+        text-transform: uppercase;
+        font-size: .65rem;
+        font-weight: bold;
+        letter-spacing: normal;
     }
     .weather-summary-header h3 {
         font-size: 1rem;

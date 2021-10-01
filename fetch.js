@@ -9,17 +9,51 @@ class AirQuality {
     }
 
     getInitialData = async() => {
-        const countries = await fetch(
-            `http://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`
-            //`http://api.airvisual.com/v2/countries?key=${this.secretKey}`
-        );
+        try {
+            const [currentPlace, countries] = await Promise.all([
+                fetch(
+                    `http://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`
+                ).then((data) => data.json()),
+                fetch(`
+                http://api.airvisual.com/v2/countries?key=${this.secretKey}`).then(
+                    (data) => data.json()
+                ),
+            ]);
 
-        const data = await countries.json();
-        console.log(data.data);
-        return data.data;
+            if (currentPlace.status === "success" && countries.status === "success") {
+                return { countries: countries.data, currentData: currentPlace.data };
+            } else {
+                throw new Error("Something went wrong!");
+            }
+        } catch (error) {
+            console.log(`error`, error);
+            return error;
+        }
+    };
+
+    getDataLists = async(dataListType, dataList) => {
+        console.log(dataList, dataListType, selectedPlace);
+
+        try {
+            if (dataListType === "country") {
+                const selectedPlace = dataList["country"];
+                var data = await fetch(
+                    `http://api.airvisual.com/v2/states?country=${selectedPlace}&key=${this.secretKey}`
+                );
+            } else if (dataListType === "state") {
+                const selectedPlace = dataList["state"];
+                var data = await fetch(
+                    `http://api.airvisual.com/v2/cities?state=${selectedPlace}&country=${dataList["country"]}&key=${this.secretKey}`
+                );
+            }
+            if (!data.ok) {
+                throw new Error("Something went wrong!");
+            }
+            const states = await data.json();
+
+            return states.data;
+        } catch (error) {
+            console.log(`error`, error);
+        }
     };
 }
-
-/*
-    http: //api.airvisual.com/v2/states?country={{COUNTRY_NAME}}&key={{YOUR_API_KEY}}
-        http: //api.airvisual.com/v2/cities?state={{STATE_NAME}}&country={{COUNTRY_NAME}}&key={{YOUR_API_KEY}}*/
