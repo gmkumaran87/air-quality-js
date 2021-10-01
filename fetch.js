@@ -10,12 +10,15 @@ class AirQuality {
         try {
             const [currentPlace, countries] = await Promise.all([
                 fetch(
-                    `http://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`
+                    `http://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`, {
+                        method: "GET",
+                        mode: "no-cors",
+                    }
                 ).then((data) => data.json()),
-                fetch(`
-                http://api.airvisual.com/v2/countries?key=${this.secretKey}`).then(
-                    (data) => data.json()
-                ),
+                fetch(`http://api.airvisual.com/v2/countries?key=${this.secretKey}`, {
+                    method: "GET",
+                    mode: "no-cors",
+                }).then((data) => data.json()),
             ]);
 
             if (currentPlace.status === "success" && countries.status === "success") {
@@ -36,17 +39,26 @@ class AirQuality {
             if (dataListType === "country") {
                 const selectedPlace = dataList["country"];
                 var data = await fetch(
-                    `http://api.airvisual.com/v2/states?country=${selectedPlace}&key=${this.secretKey}`
+                    `https://api.airvisual.com/v2/states?country=${selectedPlace}&key=${this.secretKey}`, {
+                        method: "GET",
+                        mode: "no-cors",
+                    }
                 );
             } else if (dataListType === "state") {
                 const selectedPlace = dataList["state"];
                 var data = await fetch(
-                    `http://api.airvisual.com/v2/cities?state=${selectedPlace}&country=${dataList["country"]}&key=${this.secretKey}`
+                    `https://api.airvisual.com/v2/cities?state=${selectedPlace}&country=${dataList["country"]}&key=${this.secretKey}`, {
+                        method: "GET",
+                        mode: "no-cors",
+                    }
                 );
             } else if ((dataListType = "city")) {
                 const selectedPlace = dataList["city"];
                 var data = await fetch(
-                    `http://api.airvisual.com/v2/city?city=${selectedPlace}&state=${dataList["state"]}&country=${dataList["country"]}&key=${this.secretKey}`
+                    `https://api.airvisual.com/v2/city?city=${selectedPlace}&state=${dataList["state"]}&country=${dataList["country"]}&key=${this.secretKey}`, {
+                        method: "GET",
+                        mode: "no-cors",
+                    }
                 );
             }
             if (!data.ok) {
@@ -55,12 +67,6 @@ class AirQuality {
             const region = await data.json();
 
             return region.data;
-            /*
-                                   return (dataListType = "city" ?
-                                       region.data :
-                                       (dataListType = "state" ?
-                                           region.data.city :
-                                           (dataListType = "country" ? region.data.state : null)));*/
         } catch (error) {
             console.log(`error`, error);
         }
