@@ -10,12 +10,12 @@ class AirQuality {
         try {
             const [currentPlace, countries] = await Promise.all([
                 fetch(
-                    `http://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`, {
+                    `https://api.airvisual.com/v2/nearest_city?key=${this.secretKey}`, {
                         method: "GET",
                         mode: "no-cors",
                     }
                 ).then((data) => data.json()),
-                fetch(`http://api.airvisual.com/v2/countries?key=${this.secretKey}`, {
+                fetch(`https://api.airvisual.com/v2/countries?key=${this.secretKey}`, {
                     method: "GET",
                     mode: "no-cors",
                 }).then((data) => data.json()),
